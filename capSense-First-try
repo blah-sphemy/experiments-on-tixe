@@ -1,0 +1,107 @@
+/*J. Bawa. Melbourne. July 2015
+Code for Arduino. Using a piece of foil as a capacitive sensor to produce a graded output on a LED array.
+Uning Capacitive Sense Library. Receive Pin is sensor pin.
+A high value resistor is put between the send pin and the foil. 
+*/
+
+#include <CapacitiveSensor.h>
+
+int rowOne = 2;
+int rowTwo = 3;
+int rowThr = 4;
+int rowFou = 5;
+int rowFiv = 6;
+int rowSix = 7;
+int rowSev = 9;
+CapacitiveSensor   cs_8_10 = CapacitiveSensor(8,10); //Pin 8 is set to SEND and Pinn 10 is set to RECEIVE
+
+void setup() {
+  
+   cs_8_10.set_CS_AutocaL_Millis(0xFFFFFFFF);     // turn off autocalibrate on channel 1 - just as an example
+   pinMode(rowOne,OUTPUT);
+   pinMode(rowTwo,OUTPUT);
+   pinMode(rowThr,OUTPUT);
+   pinMode(rowFou,OUTPUT);
+   pinMode(rowFiv,OUTPUT);
+   pinMode(rowSix,OUTPUT);
+   pinMode(rowSev,OUTPUT);
+   Serial.begin(9600);
+   
+
+}
+
+void loop() {
+  long start = millis();
+  long total1 =  cs_8_10.capacitiveSensor(30);
+    
+    Serial.print(millis() - start);        // check on performance in milliseconds
+    Serial.print("\t");                    // tab character for debug window spacing
+
+    Serial.print(total1);                  // print sensor output 1
+    Serial.print("\t");
+ 
+ if(total1>99&&total1<200){  //First Row
+   digitalWrite(rowOne,HIGH);
+   digitalWrite(rowTwo,LOW);
+   digitalWrite(rowThr,LOW);
+   digitalWrite(rowFou,LOW);
+   digitalWrite(rowFiv,LOW);
+   digitalWrite(rowSix,LOW);
+   digitalWrite(rowSev,LOW);
+ }
+ else if(total1>200&&total1<250){  //Second Row
+   digitalWrite(rowOne,HIGH);
+   digitalWrite(rowTwo,HIGH);
+   digitalWrite(rowThr,LOW);
+   digitalWrite(rowFou,LOW);
+   digitalWrite(rowFiv,LOW);
+   digitalWrite(rowSix,LOW);
+   digitalWrite(rowSev,LOW);
+ }
+  else if(total1>250&&total1<500){ //Third Row
+   digitalWrite(rowOne,HIGH);
+   digitalWrite(rowTwo,HIGH);
+   digitalWrite(rowThr,HIGH);
+   digitalWrite(rowFou,LOW);
+   digitalWrite(rowFiv,LOW);
+   digitalWrite(rowSix,LOW);
+   digitalWrite(rowSev,LOW);
+ }
+  else if(total1>500&&total1<900){  //Fourth Row
+   digitalWrite(rowOne,HIGH);
+   digitalWrite(rowTwo,HIGH);
+   digitalWrite(rowThr,HIGH);
+   digitalWrite(rowFou,HIGH);
+   digitalWrite(rowFiv,LOW);
+   digitalWrite(rowSix,LOW);
+   digitalWrite(rowSev,LOW);
+ }
+  else if(total1>900&&total1<1500){ //Fifth Row
+   digitalWrite(rowOne,HIGH);
+   digitalWrite(rowTwo,HIGH);
+   digitalWrite(rowThr,HIGH);
+   digitalWrite(rowFou,HIGH);
+   digitalWrite(rowFiv,HIGH);
+   digitalWrite(rowSix,LOW);
+   digitalWrite(rowSev,LOW);
+ }
+ else if(total1>1500&&total1<2500){ //Sixth Row
+   digitalWrite(rowOne,HIGH);
+   digitalWrite(rowTwo,HIGH);
+   digitalWrite(rowThr,HIGH);
+   digitalWrite(rowFou,HIGH);
+   digitalWrite(rowFiv,HIGH);
+   digitalWrite(rowSix,HIGH);
+   digitalWrite(rowSev,LOW);
+ }
+  else if(total1>2500||total1==-2){ //Seventh Row.
+   digitalWrite(rowOne,HIGH);
+   digitalWrite(rowTwo,HIGH);
+   digitalWrite(rowThr,HIGH);
+   digitalWrite(rowFou,HIGH);
+   digitalWrite(rowFiv,HIGH);
+   digitalWrite(rowSix,HIGH);
+   digitalWrite(rowSev,HIGH);
+}
+ delay(20);
+}
